@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Iniciando fase de Pre_Build
+  teste:
+    commands:
+      - echo Iniciando primeiro Teste
+  build:
+    commands:
+      - echo Iniciando fase de Build
+  teste_pos_build:
+    commands:
+      - echo Iniciando teste Pos_Build
