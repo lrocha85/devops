@@ -1,0 +1,47 @@
+pipeline{
+    agent any
+    
+    stages{
+        stage("Build"){
+            steps{
+                echo "Criando imagem docker do application1, escrita em ReactJs"
+                echo "docker build -t app_prd ."
+                echo "Nome da imagem criada: app_prd"
+                echo "Criando imagem docker dos servidores de backend, escrito em Express JS Framework"
+                echo "Esse Dockerfile deve fazer um 'pull' da imagem no caminho: dmportella/expressjs"
+                echo "Instalando MongoDb dos servidores backend"
+                echo "No arquivo Dockerfile deve conter uma instrução: RUN apt-get update && apt-get install mongodb"
+                echo "Nome da imagem criada: mongodb_prd"
+            }
+        }
+		stage ("Push") {
+			steps {
+				echo "Realizar 'Push' das imagens geradas na etapa anterior para repositório"
+			}
+		}
+		stage ("Deploy") {
+			steps {
+				echo "Fazer deploy dos serviços criandos anteriormente"
+				echo "Executar comando: docker run -d --name application -p [PORTA] app_prd"
+				echo "Executar comando: docker run -d --name service1 -p [PORTA] mongodb_prd"
+				echo "Executar comando: docker run -d --name service2 -p [PORTA] mongodb_prd"
+			}
+		}
+		stage ("Testes") {
+		    steps {
+				echo "Realizar Health Check do servidor de backend: service1"
+				echo "Chamar bateria de testes do servidor: service1"
+				echo "Realizar Health Check do servidor de backend: service2"
+				echo "Chamar bateria de testes do servidor: service2"
+				echo "Realizar Health Check do servidor de aplicação: application1"
+				echo "Chamando bateria de testes da aplicação: application1"
+				echo "Realizar teste de comunicação com servidor service2"
+			}
+		}
+		stage ("Pronto para Produção"){
+		    steps{
+		        echo "Aguardando Entrada em Produção"
+		    }
+		}
+    }
+}

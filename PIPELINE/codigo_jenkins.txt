@@ -1,0 +1,21 @@
+pipeline{
+    agent any
+    
+    stages{
+        stage("Pre-Build"){
+            steps{
+                echo "Etapa Pre-Build"
+            }
+        }
+		stage ("build") {
+			steps {
+				echo "Etapa Build"
+			}
+		}
+		stage ("Pos-Build") {
+			steps {
+				echo "Etapa Pos-Build"
+			}
+		}
+    }
+}
