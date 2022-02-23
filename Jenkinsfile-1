@@ -1,11 +1,9 @@
 pipeline {
-  agent {
-    docker { image 'ubuntu' }
-  }
+  agent none
   stages {
     stage('Test') {
-      steps {
-        echo 'OK'
+      agent {
+        docker { image "ubuntu" }
       }
     }
   }
