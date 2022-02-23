@@ -1,0 +1,91 @@
+Started by user leandro rocha
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/PipelineRLC
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] echo
+Criando imagem docker do application1 com Nginx, atualizando repositório de pacotes e instalando pacote Nginx
+[Pipeline] echo
+Lendo arquivo Dockerfile
+[Pipeline] echo
+FROM ubuntu EXPOSE 80:80 WORKDIR /opt/app1 COPY ./index.nginx-debian.html /tmp/ RUN apt-get update -y && apt-get install vim -y && apt-get install nginx -y
+[Pipeline] echo
+Nome da imagem criada: app_prd:1.0
+[Pipeline] echo
+Fazendo download de imagem docker para os servidores de backend com Mongodb
+[Pipeline] echo
+Docker pull mongo
+[Pipeline] echo
+Docker pull mongo-express
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push)
+[Pipeline] echo
+Realizar 'Push' da imagem gerada na etapa anterior para repositório
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] echo
+Lendo arquivo docker-compose.yml
+[Pipeline] echo
+Criando networks
+[Pipeline] echo
+Criando services mongo e mongo-express
+[Pipeline] echo
+Exportando porta 8081
+[Pipeline] echo
+Setando variáveis necessárias
+[Pipeline] echo
+Container mongo_container criado
+[Pipeline] echo
+Container mongoex_container criado
+[Pipeline] echo
+Criando serviço appication1
+[Pipeline] echo
+Verificando dependência com serviço mongo-express
+[Pipeline] echo
+Exportando porta 80
+[Pipeline] echo
+Container app_container criado
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pos-Deploy)
+[Pipeline] echo
+Conectar a container criado e substituir arquivo de index do nginx para um já carregado no build da image, além de startar o serviço nginx
+[Pipeline] echo
+docker exec -it app_container rm -rf /var/www/html/index* && docker exec -it app_container cp /tmp/index.nginx-debian.html /var/www/html/ && docker exec -it app_container service nginx start
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Testes)
+[Pipeline] echo
+Realizar Health Check do servidor de backend: service1
+[Pipeline] echo
+Chamar bateria de testes do servidor: service1
+[Pipeline] echo
+Realizar Health Check do servidor de backend: service2
+[Pipeline] echo
+Chamar bateria de testes do servidor: service2
+[Pipeline] echo
+Realizar Health Check do servidor de aplicação: application1
+[Pipeline] echo
+Chamando bateria de testes da aplicação: application1
+[Pipeline] echo
+Realizar teste de comunicação com servidor service2 (mongoex_container)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pronto para Produção)
+[Pipeline] echo
+Aguardando Entrada em Produção
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

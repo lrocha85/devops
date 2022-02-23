@@ -1,0 +1,63 @@
+pipeline{
+    agent any
+    
+    stages{
+        stage("Build"){
+            steps{
+                echo "Criando imagem docker do application1 com Nginx, atualizando repositório de pacotes e instalando pacote Nginx"
+                echo "Lendo arquivo Dockerfile"
+                echo "FROM ubuntu EXPOSE 80:80 WORKDIR /opt/app1 COPY ./index.nginx-debian.html /tmp/ RUN apt-get update -y && apt-get install vim -y && apt-get install nginx -y"
+                echo "Nome da imagem criada: app_prd:1.0"
+                echo "Fazendo download de imagem docker para os servidores de backend com Mongodb"
+                echo "Docker pull mongo"
+                echo "Docker pull mongo-express"
+            }
+        }
+		stage ("Push") {
+			steps {
+				echo "Realizar 'Push' da imagem gerada na etapa anterior para repositório"
+			}
+		}
+		stage ("Deploy") {
+			steps {
+                echo "Lendo arquivo docker-compose.yml"
+                echo "Criando networks"
+                echo "Criando services mongo e mongo-express"
+                echo "Exportando porta 8081"
+                echo "Setando variáveis necessárias"
+                echo "Container mongo_container criado"
+                echo "Container mongoex_container criado"
+				echo "Criando serviço appication1"
+				echo "Verificando dependência com serviço mongo-express"
+				echo "Exportando porta 80"
+				echo "Container app_container criado"
+			}
+		}
+		
+		stage ("Pos-Deploy"){
+		    steps {
+		        echo "Conectar ao container de aplicação criado e substituir arquivo de index do nginx para um já carregado no build da image, além de startar o serviço nginx"
+		        echo "docker exec -it app_container rm -rf /var/www/html/index* && docker exec -it app_container cp /tmp/index.nginx-debian.html /var/www/html/ && docker exec -it app_container service nginx start"
+			echo "Instalar reactJS no servidore de aplicação"
+			echo "Instalar Express JS framework nos servidores de backend"
+		    }
+		}
+		
+		stage ("Testes") {
+		    steps {
+				echo "Realizar Health Check do servidor de backend: service1"
+				echo "Chamar bateria de testes do servidor: service1"
+				echo "Realizar Health Check do servidor de backend: service2"
+				echo "Chamar bateria de testes do servidor: service2"
+				echo "Realizar Health Check do servidor de aplicação: application1"
+				echo "Chamando bateria de testes da aplicação: application1"
+				echo "Realizar teste de comunicação com servidor service2 (mongoex_container)"
+			}
+		}
+		stage ("Pronto para Produção"){
+		    steps{
+		        echo "Aguardando Entrada em Produção"
+		    }
+		}
+    }
+}
