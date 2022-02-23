@@ -1,9 +1,13 @@
 pipeline {
-  agent none
+  agent { dockerfile true }
   stages {
     stage('Test') {
-      agent {
-        docker { image "ubuntu" }
+      steps {
+        sh '''
+          node --version
+          git --version
+          curl --version
+        '''
       }
     }
   }
