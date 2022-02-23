@@ -1,9 +1,10 @@
 pipeline {
   stages {
-	stage('Conexao')
+	stage('Conexao'){
 	  steps {
 	    git branch: 'main', url: 'https://github.com/lrocha85/devops.git'
 	  }
+	}  
   }
   agent {
     docker { image 'lrocha85/testeapp:1.1' }
