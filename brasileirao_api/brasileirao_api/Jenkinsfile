@@ -1,7 +1,9 @@
 node("master") {
     
     stage('Clone repository') {
-      
+       agent {
+        label 'master'
+    }
 
         checkout scm
 
