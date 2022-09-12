@@ -1,0 +1,15 @@
+node("master") {
+    def app
+
+    stage('Clone repository') {
+      
+
+        checkout scm
+
+
+    }
+
+    stage('Echo') {
+          echo "Repositório clonado"
+      }
+}
