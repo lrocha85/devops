@@ -18,7 +18,7 @@ pipeline {
 
         stage('Build') {
             steps{
-                bat 'docker build -t lrocha85/brasileirao_image:latest .'
+                bat 'docker build -t lrocha85/brasileirao_image:latest devops/brasileirao_api/Dockerfile'
             }
         }
         stage('Login to dockerhub') {
