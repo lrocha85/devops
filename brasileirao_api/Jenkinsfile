@@ -11,7 +11,7 @@ pipeline {
     stages{
         stage('Clone repository') {
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], browser: [$class: 'GithubWeb', repoUrl: ''], extensions: [], userRemoteConfigs: [[credentialsId: 'ad5e43fe-91f3-494d-ae27-5cee8d0f49cb', url: 'https://github.com/lrocha85/devops.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/lrocha85/devops/tree/main/brasileirao_api'], extensions: [], userRemoteConfigs: [[credentialsId: 'ad5e43fe-91f3-494d-ae27-5cee8d0f49cb', url: 'https://github.com/lrocha85/devops.git']]])
             }
             
         }
