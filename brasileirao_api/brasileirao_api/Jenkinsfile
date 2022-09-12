@@ -20,12 +20,12 @@ pipeline {
             steps{
                 sh 'docker build -t lrocha85/estudo/brasileirao_image:latest .'
             }
-
+        }
         stage('Login to dockerhub') {
             steps{
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }    
-
+        }
         stage('Push image') {
             steps{
                 sh 'docker push lrocha85/estudo/brasileirao_image:latest'
@@ -33,7 +33,4 @@ pipeline {
             
         }
     }
-
-  }
- }
 }
