@@ -18,6 +18,8 @@ pipeline {
 
         stage('Build') {
             steps{
+                dir('/tree/main/brasileirao_api') {
+            }
                 bat 'docker build -t lrocha85/brasileirao_image:latest .'
             }
         }
