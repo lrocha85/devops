@@ -1,13 +1,16 @@
-node("master") {
-    
-    stage('Clone repository') {
-  
-        checkout scm
-
-
+pipeline {
+    agent {
+        label 'master'
     }
 
-    stage('Echo') {
-          echo "Repositório clonado"
-      }
+    stages{
+        stage('Clone repository') {
+            checkout scm
+        }
+
+        stage('Echo') {
+            echo "Repositório clonado"
+        }
+    }
+
 }
