@@ -18,7 +18,7 @@ pipeline {
 
         stage('Build') {
             steps{
-                sh 'docker build -t lrocha85/estudo/brasileirao_image:latest /brasileirao_api/brasileirao_api/Dockerfile'
+                sh 'docker build -t lrocha85/brasileirao_image:latest /brasileirao_api/brasileirao_api/Dockerfile'
             }
         }
         stage('Login to dockerhub') {
