@@ -5,11 +5,17 @@ pipeline {
 
     stages{
         stage('Clone repository') {
-            echo "clonando"
+            steps{
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], browser: [$class: 'GithubWeb', repoUrl: ''], extensions: [], userRemoteConfigs: [[credentialsId: 'ad5e43fe-91f3-494d-ae27-5cee8d0f49cb', url: 'https://github.com/lrocha85/devops.git']]])
+            }
+            
         }
 
         stage('Echo') {
-            echo "Repositório clonado"
+            steps{
+                echo "Repositório clonado"
+            }
+            
         }
     }
 
