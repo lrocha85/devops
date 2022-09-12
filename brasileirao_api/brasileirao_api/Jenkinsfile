@@ -3,6 +3,11 @@ pipeline {
         label 'master'
     }
 
+    	environment {
+		DOCKERHUB_CREDENTIALS=credentials('devops_estudo')
+	}
+
+
     stages{
         stage('Clone repository') {
             steps{
@@ -11,10 +16,20 @@ pipeline {
             
         }
 
-        stage('Echo') {
+        stage('Build') {
             steps{
-                echo "Repositório clonado"
+                sh 'docker build -t lrocha85/estudo/brasileirao_image:latest .'
             }
+
+        stage('Login to dockerhub') {
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }    
+
+        stage('Push image') {
+            steps{
+                sh 'docker push lrocha85/estudo/brasileirao_image:latest'
+            }           
             
         }
     }
