@@ -18,3 +18,5 @@ For this we will use the following packages/tools:
 - fastapi
 - uvicorn
 - lxml
+
+![image](https://user-images.githubusercontent.com/87134366/189980564-bff5d194-acbe-47be-83c8-22c32a5c88fa.png)
