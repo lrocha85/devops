@@ -1,0 +1,26 @@
+## Rodando o mesmo projeto via codebuild e codepipeline e salvando no ECR
+version: 0.2
+env:
+  variables:
+    REGION: "us-east-1"
+phases:
+  pre_build:
+    commands:
+      - IMAGE_TAG=${BUILD_NUMBER:=latest}
+      - echo Building the Docker image...
+      - docker build --file 'Dockerfile' -t brasileirao .
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ************.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker tag brasileirao:latest ************.dkr.ecr.us-east-1.amazonaws.com/REPONAME:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push ************.dkr.ecr.us-east-1.amazonaws.com/REPONAME:latest
+      - echo Image saved
+      - printf '[{"name":"APP_NAME","imageUri":"%s"}]' ************.dkr.ecr.us-east-1.amazonaws.com/REPONAME:latest  > imagedefinitions.json # Essa linha q faz o cluster atualizar a task_definition para a nova imagem
+artifacts:
+  files: imagedefinitions.json
