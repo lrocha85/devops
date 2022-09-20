@@ -1,0 +1,17 @@
+# This pipeline will run when the lambda code repository is updated
+# It needs to be in the same repository as the lambda code
+image: python:3.8
+
+pipelines:
+  branches:
+    "{main,master}":
+      - step:
+          name: Deploy Lambda
+          script:
+            - apt-get update && apt-get install -y jq zip # Install jp (package for manipulation json files) and zip
+            - curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" # Download aws-cli (necessary to manipulation aws resources)
+            - unzip awscli-bundle.zip
+            - ./awscli-bundle/install -b ~/bin/aws
+            - export PATH=~/bin:$PATH
+            - zip -g -r deployment-package.zip lambda_function.py # Create the deployment package with updated lambda_function file
+            - aws lambda update-function-code --function-name extract-email-attachment --zip-file fileb://deployment-package.zip --query "LastUpdateStatus" # Deploy new version of lambda_function
