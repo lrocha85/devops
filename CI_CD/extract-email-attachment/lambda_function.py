@@ -35,7 +35,7 @@ def lambda_handler(event, context):
     # Destination S3 bucket is hard coded to 'legacy-applications-email-attachment'. This can be configured as a parameter
     # Extracted attachment is temporarily saved as attach.csv and then uploaded to attach-upload-<timestamp>.csv
     try:
-        s3.upload_file('/tmp/attach.csv', 'datalake-lc', 'rpa-allianz' + '/attach-upload-' + timestamp + '.csv')
+        s3.upload_file('/tmp/attach.csv', 'BUCKET_S3_NAME', 'FOLDER_NAME' + '/attach-upload-' + timestamp + '.csv')
         print("Upload Successful")
     except FileNotFoundError:
         print("The file was not found")
